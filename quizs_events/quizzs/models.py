@@ -52,3 +52,23 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.text
+    
+
+class UserSubmission(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='user_submission')
+    user_name = models.CharField(max_length=30)
+    score = models.IntegerField(default=0)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user_name} : {self.quiz.title} : {self.score}"
+    
+    
+class UserAnswer(models.Model):
+    submission = models.ForeignKey(UserSubmission, on_delete=models.CASCADE, related_name='user_answer')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.TextField()
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.answer} : {self.question.text}"

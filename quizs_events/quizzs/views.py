@@ -76,23 +76,69 @@ def quiz_list(request):
 
 
 def quiz_attempt(request, quiz_id):
+    # only signin user can attempt!
     if 'uid' not in request.session:
         return redirect('signin')
     
     uid = request.session.get('uid')
     user = User.objects.get(id=uid)  
-    quizzs = Quiz.objects.get(id=quiz_id)
-    questions = quizzs.question.all().prefetch_related('answer')
+    quiz = Quiz.objects.get(id=quiz_id)
+
+    # ans related to que and que related to quiz
+    questions = quiz.question.all().prefetch_related('answer')  
+
+    if request.method == "POST":
+        user_name = request.POST.get('user_name')
+        score = 0
+
+        submission = UserSubmission.objects.create(
+            quiz = quiz,
+            user_name = user_name,
+            score = score
+        )
+
+        for qs in questions:
+            # user selected ans_ids in a list 
+            selected_ids = request.POST.getlist(f"q_{qs.id}")
+            selected_ids = [int(x) for x in selected_ids]
+
+            # correct ans_ids 
+            correct_ids = list(qs.answer.filter(is_correct=True).values_list('id', flat=True))
+
+            for ans_id in selected_ids:
+                ans = Answer.objects.get(id=ans_id)
+                UserAnswer.objects.create(
+                    submission=submission,
+                    question=qs,
+                    answer=ans.text,
+                    is_correct=ans.is_correct
+                )
+            
+            # update score only if all selected answer is correct for a multilpe type question 
+            if set(selected_ids) == set(correct_ids):
+                score += 1
+        
+        submission.score = score
+        submission.save()
+
+        return redirect('result', submission_id=submission.id)
+
     con = {
-        'quizzs':quizzs,
+        'quiz':quiz,
         'questions':questions,
-        'username':user.username,
+        'user_name':user.username,
     }
     return render(request, 'quiz_attempt.html', con)
 
 
-def result(request):
-    return render(request, 'result.html')
+def result(request, submission_id):
+    submission = UserSubmission.objects.get(id=submission_id)
+    user_answers = UserAnswer.objects.filter(submission=submission)
+    con = {
+        'submission':submission,
+        'user_answers':user_answers,
+    }
+    return render(request, 'result.html', con)
 
 
 def signout(request):

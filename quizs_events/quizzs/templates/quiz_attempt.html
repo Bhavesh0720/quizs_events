@@ -1,9 +1,10 @@
 {% extends 'home.html' %}
 {% block content %}
 
-<h1 class="text-center text-2xl font-bold mb-6">{{ quizzs.title }}</h1>
+<h1 class="text-center text-2xl font-bold mb-6">{{ quiz.title }}</h1>
 
-<form action="#" method="POST">
+<form action="{% url 'quiz_attempt' quiz.id %}" method="POST">
+    {% csrf_token %}
 
     <!-- Questions  -->
     {% for qs in questions %}
@@ -14,14 +15,14 @@
                 {% if qs.question_type == "SINGLE" %}
                     {% for ans in qs.answer.all %}
                         <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                            <input type="radio" name=f"q_{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
+                            <input type="radio" name="q_{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
                             {{ ans.text }}
                         </label>
                     {% endfor %}
                 {% else %}
                     {% for ans in qs.answer.all %}
                         <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                            <input type="checkbox" name=f"{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
+                            <input type="checkbox" name="q_{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
                             {{ ans.text }}
                         </label>
                     {% endfor %}
@@ -30,7 +31,7 @@
         </div> 
     {% endfor %}
     
-    <input type="text" name="username" value="{{ username }}" hidden required/>
+    <input type="text" name="user_name" value="{{ user_name }}" hidden required/>
     <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg">
         Submit
     </button>

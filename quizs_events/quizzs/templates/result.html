@@ -1,41 +1,42 @@
 {% extends 'home.html' %}
 {% block content %}
 
-<h1 class="text-3xl font-bold mb-4 text-center">Result</h1>
+    <h1 class="text-3xl font-bold mb-4 text-center">Result</h1>
 
-<!-- Static Top Section -->
-<div class="bg-white shadow p-6 rounded-lg mb-6 text-center">
-    <p class="text-xl font-semibold">Quiz: Sample Quiz</p>
-    <p class="text-xl font-semibold">Name: John Doe</p>
-    <p class="text-2xl font-bold text-green-600 mt-2">
-        Score: 8 / 10
-    </p>
-</div>
-
-<h2 class="text-2xl font-bold mb-4">Your Answers</h2>
-
-<div class="space-y-4">
-
-    <!-- Static Question 1 -->
-    <div class="p-4 bg-gray-100 rounded shadow">
-        <p class="font-bold">1. What is the capital of India?</p>
-
-        <p>Your Answer: Mumbai</p>
-
-        <p class="text-red-600 font-semibold">❌ Incorrect</p>
-
-        <p class="text-blue-600">Correct Answer(s): Delhi</p>
+    <div class="bg-white shadow p-6 rounded-lg mb-6 text-center">
+        <p class="text-xl font-semibold">Quiz: {{ submission.quiz.title }}</p>
+        <p class="text-xl font-semibold">Name: {{ submission.user_name }}</p>
+        <p class="text-2xl font-bold text-green-600 mt-2">
+            Score: {{ submission.score }}/ 5
+        </p>
     </div>
 
-    <!-- Static Question 2 -->
-    <div class="p-4 bg-gray-100 rounded shadow">
-        <p class="font-bold">2. Select programming languages:</p>
+    <h2 class="text-2xl font-bold mb-4">Your Answers</h2>
 
-        <p>Your Answer: Python, HTML</p>
+    <div class="space-y-4">
+        {% for ua in user_answers %}
+        <div class="p-4 bg-gray-100 rounded shadow">
+            <p class="font-bold">{{ forloop.counter }}. {{ ua.question.text }}</p>
 
-        <p class="text-green-600 font-semibold">✅ Correct</p>
+            <p>Your Answer: {{ ua.answer }}</p>
+
+            {% if ua.is_correct %}
+                <p class="text-green-600 font-semibold">✅ Correct</p>
+            {% else %}
+                <p class="text-red-600 font-semibold">❌ Incorrect</p>
+
+                <p class="text-blue-600">
+                    Correct Answer:
+                    {% for ca in ua.question.answer.all %}
+                        {% if ca.is_correct %}
+                            {{ ca.text }}{% if not forloop.last %}, {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            {% endif %}
+        
+        </div>
+        {% endfor %}
     </div>
-
-</div>
 
 {% endblock %}
