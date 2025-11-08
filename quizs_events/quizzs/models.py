@@ -8,3 +8,13 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+    
+
+class Event(models.Model):
+    title = models.CharField(max_length=50)
+    description = models.TextField()
+    date = models.DateTimeField()
+    location = models.TextField()
+
+    def __str__(self):
+        return self.title

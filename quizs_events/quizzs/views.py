@@ -60,7 +60,11 @@ def home(request):
 
 
 def events(request):
-    return render(request, 'events.html')
+    events = Event.objects.all()
+    con = {
+        'events':events,
+    }
+    return render(request, 'events.html', con)
 
 
 def quiz_list(request):
