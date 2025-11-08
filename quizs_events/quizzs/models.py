@@ -28,3 +28,18 @@ class Quiz(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Question(models.Model):
+    QUESTION_TYPE=[
+        ("SINGLE", "SINGLE"),
+        ("MULTIPLE", "MULTIPLE")
+    ]
+
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='question')
+    text = models.TextField()
+    question_type = models.CharField(choices=QUESTION_TYPE, default="SINGLE")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text + " : " + self.quiz.title

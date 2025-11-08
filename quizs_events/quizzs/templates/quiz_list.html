@@ -5,7 +5,7 @@
   <h1 class="text-center text-2xl font-bold mb-6">Available Quizzes</h1>  
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {% for qz in quizzs %}
-      <a href="" class="p-4 bg-white shadow rounded-lg hover:bg-gray-100">
+      <a href="{% url 'quiz_attempt' qz.id %}" class="p-4 bg-white shadow rounded-lg hover:bg-gray-100">
         <h2 class="text-xl font-semibold">{{ qz.title }}</h2>
         <p class="text-gray-600">{{ qz.description }}</p>
       </a>

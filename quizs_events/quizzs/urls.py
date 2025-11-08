@@ -9,6 +9,6 @@ urlpatterns = [
     path('signout', views.signout, name='signout'),
     path('events', views.events, name='events'),
     path('quiz_list', views.quiz_list, name='quiz_list'),
-    path('quiz_attempt', views.quiz_attempt, name='quiz_attempt'),
+    path('quiz_attempt/<int:quiz_id>', views.quiz_attempt, name='quiz_attempt'),
     path('result', views.result, name='result'),
 ]

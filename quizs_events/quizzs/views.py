@@ -75,8 +75,14 @@ def quiz_list(request):
     return render(request, 'quiz_list.html', con)
 
 
-def quiz_attempt(request):
-    return render(request, 'quiz_attempt.html')
+def quiz_attempt(request, quiz_id):
+    quizzs = Quiz.objects.get(id=quiz_id)
+    questions = quizzs.question.all()
+    con = {
+        'quizzs':quizzs,
+        'questions':questions,
+    }
+    return render(request, 'quiz_attempt.html', con)
 
 
 def result(request):

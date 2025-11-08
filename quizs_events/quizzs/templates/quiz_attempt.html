@@ -1,53 +1,33 @@
 {% extends 'home.html' %}
 {% block content %}
 
-<h1 class="text-center text-2xl font-bold mb-6">Sample Quiz</h1>
+<h1 class="text-center text-2xl font-bold mb-6">{{ quizzs.title }}</h1>
 
 <form action="#" method="POST">
 
-    <!-- Question 1 -->
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <p class="text-lg font-medium mb-4">1. What is the capital of India?</p>
+    <!-- Questions  -->
+    {% for qs in questions %}
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <p class="text-lg font-medium mb-4">{{ forloop.counter }}. {{ qs.text }}?</p>
 
-        <div class="space-y-2">
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="radio" name="q1" value="1" class="mr-2" />
-                Mumbai
-            </label>
+            <div class="space-y-2">
+                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="radio" name="q1" value="1" class="mr-2" />
+                    Mumbai
+                </label>
 
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="radio" name="q1" value="2" class="mr-2" />
-                Delhi
-            </label>
+                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="radio" name="q1" value="2" class="mr-2" />
+                    Delhi
+                </label>
 
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="radio" name="q1" value="3" class="mr-2" />
-                Kolkata
-            </label>
-        </div>
-    </div>
-
-    <!-- Question 2 -->
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-        <p class="text-lg font-medium mb-4">2. Select programming languages:</p>
-
-        <div class="space-y-2">
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
+                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
                 <input type="checkbox" name="q2" value="1" class="mr-2" />
                 Python
             </label>
-
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="checkbox" name="q2" value="2" class="mr-2" />
-                Java
-            </label>
-
-            <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="checkbox" name="q2" value="3" class="mr-2" />
-                HTML
-            </label>
-        </div>
-    </div>
+            </div>
+        </div> 
+    {% endfor %}
 
     <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg">
         Submit
