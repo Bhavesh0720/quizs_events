@@ -1,0 +1,36 @@
+
+<!-- Home Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Home</title>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <nav class="p-4 bg-white shadow flex justify-between">
+    <h1 class="text-xl font-bold">Quiz App</h1>
+    <div class="space-x-4">
+      <a href="{% url 'home' %}" class="text-blue-600">Home</a>
+      <a href="{% url 'quiz_list' %}" class="text-blue-600">Quizzes</a>
+      <a href="{% url 'events' %}" class="text-blue-600">Events</a>
+      {% if request.session.user %}
+        <a href="{% url 'signout' %}" class="text-blue-600">Sign OUT</a>
+      {% else %}
+        <a href="{% url 'signin' %}" class="text-blue-600">Sign IN</a>
+      {% endif %}
+    </div>
+  </nav>
+  {% block content %}
+    <main class="p-8 text-center">
+      <h2 class="text-3xl font-semibold mb-4">Welcome to the Quiz App</h2>
+      <p class="text-gray-700 mb-6">Test your knowledge across various topics.</p>
+      <a href="{% url 'quiz_list' %}" class="px-6 py-3 bg-blue-600 text-white rounded-lg">Start Now</a>
+    </main>
+  {% endblock content %}
+</body>
+
+</html>
