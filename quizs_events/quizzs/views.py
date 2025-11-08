@@ -40,7 +40,7 @@ def signin(request):
         try:
             user = User.objects.get(email=email)
             if password == user.password:
-                request.session['user'] = user.id
+                request.session['uid'] = user.id
                 return redirect('home')
             else:
                 msg = "wrong password!"
@@ -76,11 +76,17 @@ def quiz_list(request):
 
 
 def quiz_attempt(request, quiz_id):
+    if 'uid' not in request.session:
+        return redirect('signin')
+    
+    uid = request.session.get('uid')
+    user = User.objects.get(id=uid)  
     quizzs = Quiz.objects.get(id=quiz_id)
-    questions = quizzs.question.all()
+    questions = quizzs.question.all().prefetch_related('answer')
     con = {
         'quizzs':quizzs,
         'questions':questions,
+        'username':user.username,
     }
     return render(request, 'quiz_attempt.html', con)
 

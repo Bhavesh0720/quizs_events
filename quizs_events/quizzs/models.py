@@ -43,3 +43,12 @@ class Question(models.Model):
 
     def __str__(self):
         return self.text + " : " + self.quiz.title
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answer')
+    text = models.TextField()
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.text

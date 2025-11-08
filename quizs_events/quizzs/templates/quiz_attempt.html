@@ -8,27 +8,29 @@
     <!-- Questions  -->
     {% for qs in questions %}
         <div class="bg-white p-6 rounded-lg shadow mb-6">
-            <p class="text-lg font-medium mb-4">{{ forloop.counter }}. {{ qs.text }}?</p>
+            <p class="text-lg font-medium mb-4">{{ forloop.counter }}. {{ qs.text }}</p>
 
             <div class="space-y-2">
-                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                    <input type="radio" name="q1" value="1" class="mr-2" />
-                    Mumbai
-                </label>
-
-                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                    <input type="radio" name="q1" value="2" class="mr-2" />
-                    Delhi
-                </label>
-
-                <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
-                <input type="checkbox" name="q2" value="1" class="mr-2" />
-                Python
-            </label>
+                {% if qs.question_type == "SINGLE" %}
+                    {% for ans in qs.answer.all %}
+                        <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
+                            <input type="radio" name=f"q_{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
+                            {{ ans.text }}
+                        </label>
+                    {% endfor %}
+                {% else %}
+                    {% for ans in qs.answer.all %}
+                        <label class="flex items-center p-3 border rounded hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name=f"{{ qs.id }}" value="{{ ans.id }}" class="mr-2" />
+                            {{ ans.text }}
+                        </label>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div> 
     {% endfor %}
-
+    
+    <input type="text" name="username" value="{{ username }}" hidden required/>
     <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg">
         Submit
     </button>
