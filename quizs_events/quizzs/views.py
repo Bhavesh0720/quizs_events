@@ -68,7 +68,11 @@ def events(request):
 
 
 def quiz_list(request):
-    return render(request, 'quiz_list.html')
+    quizzs = Quiz.objects.all()
+    con = {
+        'quizzs':quizzs,
+    }
+    return render(request, 'quiz_list.html', con)
 
 
 def quiz_attempt(request):
