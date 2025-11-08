@@ -7,10 +7,10 @@
 3. Open the integrated terminal in VS Code  
    (Terminal → New Terminal).
 
-4. change directory:
-    cd quizs_events-main
+4. change directory:<br>
+   cd quizs_events-main
    
-5. Create a virtual environment :   
+5. Create a virtual environment:<br>   
    python -m venv myenv
 
 6. Activate the virtual enviourment:<br>
@@ -27,3 +27,7 @@
 
 10. Open the application in your browser:<br>
    http://127.0.0.1:8000/
+
+## Admin Panel Credential<br>
+Username: admin <br>
+Password: admin <br>
