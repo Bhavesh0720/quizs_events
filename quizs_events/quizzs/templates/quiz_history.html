@@ -1,0 +1,19 @@
+{% extends "home.html" %}
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6 text-center">Your Attempted Quizzs, {{ username }}</h1>
+
+<div class="max-w-4xl mx-auto space-y-4">
+
+    <!-- History -->
+    {% for sb in submission %}
+        <div class="bg-white p-5 rounded-lg shadow">
+            <h2 class="text-xl font-semibold">{{ sb.quiz.title }}</h2>
+            <p class="text-gray-700"><b>Date Attempted:</b> {{ sb.submitted_at }}</p>
+            <p class="text-gray-700"><b>Score:</b> {{ sb.score }} / 5</p>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

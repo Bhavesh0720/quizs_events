@@ -11,4 +11,5 @@ urlpatterns = [
     path('quiz_list', views.quiz_list, name='quiz_list'),
     path('quiz_attempt/<int:quiz_id>', views.quiz_attempt, name='quiz_attempt'),
     path('result/<int:submission_id>', views.result, name='result'),
+    path('quiz_history', views.quiz_history, name='quiz_history'),
 ]

@@ -141,6 +141,22 @@ def result(request, submission_id):
     return render(request, 'result.html', con)
 
 
+def quiz_history(request):
+    if 'uid' not in request.session:
+        return redirect('signin')
+    
+    uid = request.session.get('uid')
+    user = User.objects.get(id=uid)
+    submission = UserSubmission.objects.filter(user_name=user.username)
+
+    con = {
+        'submission':submission,
+        'username':user.username,
+    }
+
+    return render(request, 'quiz_history.html', con)
+
+
 def signout(request):
     request.session.flush()
     return redirect('signin')

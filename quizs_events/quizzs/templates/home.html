@@ -17,6 +17,9 @@
       <a href="{% url 'quiz_list' %}" class="text-blue-600">Quizzes</a>
       <a href="{% url 'events' %}" class="text-blue-600">Events</a>
       {% if 'uid' in request.session %}
+        <a href="{% url 'quiz_history' %}" class="text-blue-600">Quiz History</a>
+      {% endif %}
+      {% if 'uid' in request.session %}
         <a href="{% url 'signout' %}" class="text-blue-600">Sign OUT</a>
       {% else %}
         <a href="{% url 'signin' %}" class="text-blue-600">Sign IN</a>
