@@ -10,7 +10,7 @@
 4. change directory:<br>
    cd quizs_events-main
    
-5. Create a virtual environment:<br>   
+5. Create a virtual environment:  
    python -m venv myenv
 
 6. Activate the virtual enviourment:<br>
