@@ -14,23 +14,25 @@
     <h2 class="text-2xl font-bold mb-4">Your Answers</h2>
 
     <div class="space-y-4">
-        {% for ua in user_answers %}
+        {% for res in results %}
         <div class="p-4 bg-gray-100 rounded shadow">
-            <p class="font-bold">{{ forloop.counter }}. {{ ua.question.text }}</p>
+            <p class="font-bold">{{ forloop.counter }}. {{ res.question.text }}</p>
 
-            <p>Your Answer: {{ ua.answer }}</p>
+            <p>Your Answer(s): 
+                {% for ua in res.user_answers %}
+                    {{ ua.text }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </p>
 
-            {% if ua.is_correct %}
+            {% if res.is_correct %}
                 <p class="text-green-600 font-semibold">✅ Correct</p>
             {% else %}
                 <p class="text-red-600 font-semibold">❌ Incorrect</p>
 
                 <p class="text-blue-600">
                     Correct Answer:
-                    {% for ca in ua.question.answer.all %}
-                        {% if ca.is_correct %}
-                            {{ ca.text }}{% if not forloop.last %}, {% endif %}
-                        {% endif %}
+                    {% for ca in res.correct_answers %}
+                        {{ ca }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </p>
             {% endif %}

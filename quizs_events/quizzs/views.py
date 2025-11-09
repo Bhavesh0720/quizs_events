@@ -133,10 +133,43 @@ def quiz_attempt(request, quiz_id):
 
 def result(request, submission_id):
     submission = UserSubmission.objects.get(id=submission_id)
-    user_answers = UserAnswer.objects.filter(submission=submission)
+    user_answers = submission.user_answer.select_related('question').all()
+
+    grouped = {}
+
+    for ua in user_answers:
+        qs = ua.question
+        if qs.id not in grouped:
+            grouped[qs.id]={
+                "question":qs,
+                "user_ans":[],
+                "correct_ans":list(qs.answer.filter(is_correct=True).values_list('text', flat=True))                
+            }
+
+        grouped[qs.id]["user_ans"].append({
+            "text":ua.answer,
+            "is_correct":ua.is_correct
+        })    
+
+    results = []
+    for val in grouped.values():
+        # fileter correct user ans
+        user_correct = [x["text"] for x in val["user_ans"] if x["is_correct"] ]
+
+        # only correct if all multiple choice ans is correct
+        fully_correct = set(user_correct) == set(val["correct_ans"])
+
+        results.append({
+            "question":val["question"],
+            "user_answers":val["user_ans"],
+            "correct_answers":val["correct_ans"],
+            "is_correct":fully_correct
+        })
+
+
     con = {
         'submission':submission,
-        'user_answers':user_answers,
+        'results':results,
     }
     return render(request, 'result.html', con)
 
